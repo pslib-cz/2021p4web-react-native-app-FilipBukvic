@@ -1,7 +1,12 @@
 
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Vibration } from 'react-native';
 import { useState } from "react";
 import AccelerometerComponent from "./components/Accelerometer";
+import { Audio } from "expo-av";
+
+import magic_1 from "./assets/sound/magic_1.mp3";
+import magic_2 from "./assets/sound/magic_2.mp3";
+import magic_3 from "./assets/sound/magic_3.mp3";
 
 const answersList = [
 	{chance: 5, message: "Klídek, klídek.. nemusíš na mě takovou silou!"},
@@ -39,7 +44,33 @@ export default function App() {
 		const answers = answersList.filter(i => i.chance < changedValue);
 		const answer = answers[Math.floor(Math.random() * answers.length)];
 		setMessage(answer.message);
+		
+		playSound();
+		Vibration.vibrate();
 	};
+
+	async function playSound() {
+		const randomSound = Math.ceil(Math.random() * 3)
+		let soundSource = magic_1;
+
+		switch (randomSound) {
+			case 1:
+				soundSource = magic_1;
+				break;
+			case 2:
+				soundSource = magic_2;
+				break;
+			case 3:
+				soundSource = magic_3;
+				break;
+			default:
+				soundSource = magic_1;
+				break;
+		}
+
+		const { sound } = await Audio.Sound.createAsync(soundSource);
+		await sound.playAsync();
+	}
 
 	return (
 		<View style={styles.container}>
@@ -76,7 +107,7 @@ const styles = StyleSheet.create({
 		width: 340,
 		height: 340,
 		backgroundColor: "black",
-		borderRadius: "100%",
+		borderRadius: 340 / 2,
 		justifyContent: "center",
 		alignItems: "center",
 		borderColor: "#0f0f0f",
@@ -86,7 +117,7 @@ const styles = StyleSheet.create({
 		width: 250,
 		height: 250,
 		backgroundColor: "white",
-		borderRadius: "100%",
+		borderRadius: 250 / 2,
 		justifyContent: "center",
 		alignItems: "center",
 		padding: 10,

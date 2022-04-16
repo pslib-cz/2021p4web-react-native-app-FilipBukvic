@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 
 const AccelerometerComponent = props => {
@@ -8,7 +7,7 @@ const AccelerometerComponent = props => {
 	const sensibility = 2.0;
 
 	const _subscribe = () => {
-		Accelerometer.setUpdateInterval(300);
+		Accelerometer.setUpdateInterval(400);
 
 		setSubscription(
 			Accelerometer.addListener(accelerometerData => {
